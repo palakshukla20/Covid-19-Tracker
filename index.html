@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel= "stylesheet" href= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <script src= "https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity= "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src= "https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity= "sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity= "sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  <script src= "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src= "https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+  <script src= "https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+  <script src= "https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+  <meta name= "viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel= "stylesheet" href= "main.css">
+</head>
+<body>
+<div class= "body">
+  <div class = "main d-flex flex-wrap" >
+    <div class= "Navbar_ bg-light navbar-collapse">
+      <nav class= "Navbar navbar-light bg-light">
+        <div class= "nav-item-head">
+          <a class= "navbar-brand" href="#">COVID19<br><span>India</span></a>
+        </div> 
+        <ul class= "navbar-nav">
+          <li class= "nav-item active">
+            <a class= "nav-link" href= "#"><i class= "fas fa-home"></i><span>Home</span></a>
+          </li> 
+          <li class= "nav-item"> 
+            <a class= "nav-link" href="#"><i class= "fas fa-book"></i><span>Blog</span></a>
+          </li>
+          <li class= "nav-item">
+            <a class= "nav-link" href="#"><i class= "far fa-question-circle"></i><span>About</span></a>
+          </li>
+          <li class= "nav-item">
+            <a class= "nav-link" href="#"><i class= "far fa-moon"></i><span class= "span-last">A croudsourced initiative</span></a>
+          </li>
+         <li class= "nav-link-last"> 
+          <a  href= "#">English</a>
+         </li>
+        </ul>
+      </nav>
+    </div>
+    <div class= "body-middle">
+      <div class= "table-body">
+        <div class= "search-center">
+          <div class= "search">
+            <p>Search your district and state</p>
+            <div class= "search-box">
+              <div class= "search-button">
+                <span><i class= "fa fa-search" aria-hidden= "true"></i></span>
+              </div>
+              <input id= "searchBar" type= "text" value= "" onclick= "searchListHide()">
+            </div>
+            <ul class= "list-group" id= "result"></ul>
+          </div>
+          <div class= "search-list" id= "hide-search">
+            <ul id= "district-list"><span id= "list">District</span></ul>
+            <ul id= "state-list"><span id= "list">State/UT</span></ul>
+          </div>
+        </div>
+        <div class= "map-card" id= "map-card">
+          
+          <script type= "text/template" id= "total-data">
+          {{#India}}
+            <div class= "map-card-card1" onclick= "isActive(this)">
+              <p>Confirmed</p>
+              <span>{{#deltaConfirmed}}+{{deltaConfirmed}}{{/deltaConfirmed}}
+                {{^deltaConfirmed}}<i class= "fas fa-heart"></i>{{/deltaConfirmed}}</span>
+              <h3>{{confirmed}}</h3>
+            </div>
+            <div class= "map-card-card2 active" onclick= "isActive(this)">
+              <p>Active</p>
+              <span>a</span>
+              <h3>{{active}}</h3>
+            </div>
+            <div class= "map-card-card3"  onclick= "isActive(this)">
+              <p>Recoverd</p>
+              <span>{{#deltaRecovered}}+{{deltaRecovered}}{{/deltaRecovered}}
+                {{^deltaRecovered}}<i class="fas fa-heart"></i>{{/deltaRecovered}}
+              </span>
+              <h3>{{recovered}}</h3>
+            </div>
+            <div class= "map-card-card4" onclick= "isActive(this)">
+              <p>Deceased</p> 
+              <span>+{{deltaDeceased}}</span>
+              <h3>{{deceased}}</h3>
+            </div>
+          {{/India}}
+          </script>
+        </div>
+        <div class= "table">
+          <div class= "table-head">
+            <button class= "sort-table-left-state">
+              <span><i class= "fas fa-sort"></i></span>
+            </button>
+            <button class= "sort-table-left">
+              <span class= "sort-table-span">10L</span>
+            </button>
+            <button class= "sort-table-left-ques">
+              <span><i class= "far fa-question-circle"></i></span>
+            </button>
+            <button class= "sort-table-right">
+             <span><i class= "fas fa-ellipsis-v"></i><i class= "fas fa-arrow-right"></i></span>
+            </button>
+          </div>
+          <div class= "sort-table-ques">
+            <div class= "info-left">
+              <span><i class= "fas fa-sort"></i></span>
+              <p>Toggle between States/Districts</p>
+              <p>Units</p>
+            </div>
+            <div class= "info-left">
+              <span class= "info-left-span">10L</span><p>Per Ten Lakh People</p>
+              <p>1K</p><p><var>10<sup>3</sup></var></p>
+            </div>
+            <div class= "info-left">
+              <span><i class= "fas fa-sort-down"></i></span><p>Sort by Descending</p>
+              <p>1L</p><p><var>10<sup>5</sup></var></p>
+            </div>
+            <div class= "info-left">
+              <span><i class= "fas fa-sort-up"></i></i></span><p>Sort by Ascending</p>
+              <p>1Cr</p><p><var>10<sup>7</sup></var></p>
+            </div>
+            <div class= "info-left">
+              <span><i class= "fas fa-sort-down"></i></span><p>Sort by Delta [long press]</p>
+            </div> 
+            <div class= "info-left">
+              <span><i class= "far fa-question-circle"></i></span><p>Notes</p>
+            </div> 
+          </div>
+          <table class= "table-bordered">
+            <thead>
+              <th>State/UT</th>
+              <th>Confirmed</th>
+              <th>Active</th>
+              <th>Recovered</th>
+              <th>Deceased</th>
+              <th>Other</th>
+              <th class= "table-hide">Tested</th>
+              <th>Active Ratio</th>
+              <th>Recovery Ratio</th>
+              <th>Case fatality</th>
+              <th>Population</th>
+            </thead>
+            <tbody id= "body"></tbody>
+            <tbody id= "district">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class= "body-right">
+      <div class= "row body-right-upper" id= "body-right-upper">
+        <script id= "dropdown-template" class= "drop" type= "text/template">
+          {{#India}}
+            <div class= "col header-upper">
+              <div class= "dropdown">
+                <button class= "header-upper-text" type= "button"><h1>India</h1></button>
+              </div>
+              <span>Last updated on  {{lastUpdateDate}}</span>
+            </div>
+            <div class= "col header-upper-left">
+              <h5>tested</h5>
+              <h2>{{testData}}</h2>
+              <h5>{{lastUpdate}}</h5>
+            </div>
+          {{/India}}
+        </script>
+      </div>
+      <div class= "body-right-lower">
+        <div class= "spread">
+          <h2>Spread Trends</h2>
+          <div class= "spread-inner">
+            <button class= "spread-button">
+              <h4>Cumulative</h4>
+            </button>
+            <button class= "spread-button">
+              <h4>Daily</h4>
+            </button>
+          </div>
+        </div>
+        <div class= "select-box">
+          <select class= "select-state"><i class= "fa fa-reply" aria-hidden= "true"></i>
+            <option value = "TT">India</option>
+          </select>
+        </div>
+        <div class= "chart">
+          <div id= "chartContainer1"></div>
+          <div id= "chart1"></div>
+        </div><br>
+        <div class= "chart">
+          <div id= "chartContainer2"></div>
+          <div id= "chart2"></div>
+        </div><br>
+        <div class= "chart">
+          <div id= "chartContainer3"></div>
+          <div id= "chart3"></div>
+        </div><br>
+        <div class= "chart">
+          <div id= "chartContainer4"></div>
+          <div id= "chart4"></div>
+        </div><br>
+      </div>
+    </div>
+  </div>
+  <script id= "template" type= "text/template">
+    {{#result}}
+    <tr class= {{stateArray}} id= {{stateArray}} onclick= "expandRow(this)">
+      <th>
+        <span>{{stateName}}</span>
+      </th>
+      <td><span id= "delta-1">
+        {{#deltaConfirmed}}<i class= "fas fa-arrow-up"></i>{{deltaConfirmed}}{{/deltaConfirmed}}</span><br>
+        {{confirmed}}
+      </td>
+      <td>{{active}}</td> 
+      <td><span id= "delta-2">
+        {{#deltaRecovered}}<i class= "fas fa-arrow-up"></i>{{deltaRecovered}} {{/deltaRecovered}}</span><br>
+        {{recovered}}
+      </td>
+      <td><span id= "delta-3">
+        {{#deltaDeceased}}<i class= "fas fa-arrow-up"></i>{{deltaDeceased}} {{/deltaDeceased}}</span><br>
+        {{deceased}}
+      </td>
+      <td>{{other}} {{^other}} 0 {{/other}}</td>
+      <td class= "table-hide" id= "tested">{{tested}}</td>
+      <td>{{activeRatio}}%</td>
+      <td>{{recoveryRatio}}%</td>
+      <td>{{caseFatality}}% {{^caseFatality}}0{{/caseFatality}}</td>
+      <td>{{population}}</td> 
+    </tr>
+    <tr class= "district">
+      <th class= "district-icon" colspan= "1">
+        <i class= "far fa-clock"> </i>
+        <span> Last updated on {{lastUpdate}}</span>
+      </th>
+    </tr>
+    {{/result}} 
+    {{#India}}
+    <tr>
+      <th>India
+      </th>
+      <td><span id= "delta-1">
+        {{#deltaConfirmed}}<i class= "fas fa-arrow-up"></i>{{deltaConfirmed}}{{/deltaConfirmed}}</span><br>
+        {{confirmed}}
+      </td>
+      <td>{{active}}</td>
+      <td><span id= "delta-2">
+        {{#deltaRecovered}}<i class= "fas fa-arrow-up"></i>{{deltaRecovered}}{{/deltaRecovered}}</span><br>
+        {{recovered}}
+      </td>
+      <td><span id= "delta-3">{{#deltaDeceased}}<i class= "fas fa-arrow-up">{{deltaDeceased}}</i>{{/deltaDeceased}}</span><br>
+        {{deceased}}
+      </td>
+      <td>{{other}} {{^other}} 0 {{/other}}</td>
+      <td class= "table-hide">{{tested}}</td>
+      <td>{{activeRatio}}{{^activeRatio}}0{{/activeRatio}}</td>
+      <td>{{recoveryRatio}}%</td>
+      <td>{{caseFatality}}%</td>
+      <td>{{population}}</td> 
+    </tr>     
+    {{/India}}      
+ </script>
+  <footer>
+    <div class= "footer name">
+      <a href= "#"> COVID19INDIA</a>
+    </div>
+    <p>We stand with everyone fighting on the fontlines</p>
+    <div class= "social_icon">
+      <a href= "#"><i class= "social_icon_1 fab fa-github"></i></a>
+      <a href= "#"><i class= "social_icon_2 fab fa-telegram"></i></a>
+      <a href= "#"><i class= "social_icon_3 fab fa-twitter"></i></a>
+      <a href= "#"><i class= "social_icon_4 fa fa-envelope"></i></a>
+    </div>
+  </footer>
+</div>  
+<script src="chart.js"></script>
+<script src="main.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
